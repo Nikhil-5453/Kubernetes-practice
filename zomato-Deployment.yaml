@@ -1,0 +1,22 @@
+## sample Deployment.yml for nodejs Zomato application
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zomato
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zomato
+  template:
+    metadata:
+      name: zomato-template
+      labels:
+        app: zomato
+    spec:
+      containers:
+        - name: cont1
+          image: nikhil74/zomato-app:v1
+          ports:
+            - containerPort: 3000
