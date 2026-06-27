@@ -1,0 +1,39 @@
+
+# Create a configmap by literal way using the following command:
+# kubectl create configmap firstcm --from-literal=Name=Jaswanth --from-literal=City=Hyderabad --from-literal=Job-tittle=Software-Engineer 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: container1
+    image: nginx
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+  # Injecting environment variables using ConfigMpaKeyRef field in the Pod spec. The ConfigMap is created by literal way.
+    env:
+     - name: firstcm_Name
+       valueFrom:
+         configMapKeyRef:
+           name: firstcm
+           key: Name
+
+     - name: secondcm_City
+       valueFrom:
+         configMapKeyRef:
+           name: secondcm
+           key: City
+
+     - name: secondcm_Job_tittle
+       valueFrom:
+         configMapKeyRef:
+           name: secondcm
+           key: Job-tittle
+      

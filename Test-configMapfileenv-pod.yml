@@ -1,0 +1,28 @@
+
+# Created a newconfig.env file with the following content:
+# Name=Jaswanth
+# City=Hyderabad
+# Company=TCS
+
+# Create a ConfigMap from the above newconfig.env file using the following command:
+# kubectl create configmap configfile1 --from-env-file=newconfig.env
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod1
+spec:
+  containers:
+  - name: container1
+    image: nginx
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+  # Here injected environment variables from ConfigMap using "envFrom" field in the Pod spec.
+    envFrom:
+     - configMapRef:
+         name: configfile1

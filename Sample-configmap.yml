@@ -1,0 +1,41 @@
+# creating a configmap using in Declarative way/ Manifest file
+# here, create a file Sample-configmap.yml and create a configmap using the following command:
+# kubectl apply -f Sample-configmap.yml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zomato-cfg
+data:
+  message: "Config data has pulled"
+
+# now, check the configmap using the following command:
+# kubectl get cm to know the configmap is created or not
+# kubectl get configmap zomato-cfg -o yaml
+
+---
+
+# create a Deployment using the above configmap using the following command:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zomato-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zomato
+  template:
+    metadata:
+      labels:
+        app: zomato
+    spec:
+      containers:
+        - name: zmt-cont
+          image: "nikhil74/zomatoapp:v2"
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: zomato-cfg
