@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar-demo                             # -> Name of the deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidecar                               # -> Label selector to match the pods created by this deployment
+  template:
+    metadata:
+      labels:
+        app: sidecar                             # -> Labels to be applied to the pods created by this deployment
+    spec:
+      containers:
+        - name: main-app
+          image: nikhil74/sidecar-demo:v1        # -> Name and image of the main application container
+          ports:
+            - containerPort: 3000
+        - name: busybox-sidecar                  # -> Name of the sidecar container
+          image: busybox
+          command: ["sh", "-c", "while true; do echo sidecar logginh...; sleep 10; done"]     # -> Command to run in the sidecar container, which logs a message every 10 seconds
