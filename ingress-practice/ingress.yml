@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+Metadata:
+  name: application-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    ngninx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+    #- host: zomatoapp.com                 # -> routing traffic to the application-service when the request host is 'zomatoapp.com' ie; DNS name of the application
+    - http:
+      paths:
+        - path: /                          # -> routing traffic to the application-service when the request path is / (root path)
+          pathType: Prefix
+          backend:
+            service:
+              name: application-service    # -> name of the service to route traffic to application-pod
+              port:
+                number: 3000               # -> port number of the service to route traffic to application-pod
+
+
+# =>> Created ingress-controller and ingress service and routed path based.
