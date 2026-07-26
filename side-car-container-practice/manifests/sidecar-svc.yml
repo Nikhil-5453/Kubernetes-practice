@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: sidecar-demo-svc        # -> Name of the service
 spec:
-  # type: NodePort
+  type: NodePort
   selector:
     app: sidecar               # -> Label selector to match the pods created by the deployment
   ports:
